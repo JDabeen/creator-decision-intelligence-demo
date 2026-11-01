@@ -80,12 +80,13 @@ flowchart TD
 
 ## 06. 데모 — API 키 없이 보기
 
-**[설치 없는 데모 페이지 열기](demo.html)** · [시연 설명](docs/DEMO_GUIDE.md)
+**[▶ 인터랙티브 웹 데모 체험하기](https://jdabeen.github.io/creator-decision-intelligence-demo/)** · [데모 파일](index.html) · [시연 설명](docs/DEMO_GUIDE.md)
 
-GitHub에서 `demo.html` 파일을 다운로드하여 브라우저로 열면 **주제 발견 → 비교 → 조사 → 대본 A/B → 최종 선택** 흐름을 가상 데이터로 체험할 수 있습니다.
+GitHub Pages가 활성화되면 위 체험 링크를 눌러 다운로드 없이 브라우저에서 **주제 발견 → 비교 → 조사 → 대본 A/B → 최종 선택** 흐름을 가상 데이터로 체험할 수 있습니다.
 
 - 모든 데모 내용은 **합성 데이터**입니다. 실제 채널 성과나 AI 분석 결과가 아닙니다.
 - 데모에는 **API 호출, 인증키, 유료 크레딧 사용이 없습니다.**
+- 웹 주소가 404로 보이면 저장소의 **Settings → Pages → Build and deployment → Deploy from a branch → main / (root) → Save**를 설정해야 합니다.
 - **시연 영상:** 아직 등록되지 않았습니다. 완성된 영상은 이 위치에 추가할 계획입니다.
 
 ## 07. 공개 범위와 보안
