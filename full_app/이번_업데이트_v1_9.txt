@@ -1,0 +1,22 @@
+YouTube Content Consultant v1.9 FULL — 채널 운영 상담 · 자동 로컬 기록
+
+바탕화면에서 YT_Channel_Strategy 폴더를 찾아보세요. (원드라이브 바탕화면도 처리)
+기존 youtube_consultant_data와 별도의 폴더입니다.
+
+1. ZIP을 새 폴더에 압축 풀기
+2. .env.example을 .env로 복사하고 YOUTUBE_API_KEY, OPENAI_API_KEY 입력
+3. Docker Desktop이 켜진 상태에서 0_START_WITH_HERMES.bat 더블클릭
+4. 프로그램 사이드 메뉴 > 채널 운영 상담 · 전략 기록
+5. 업로드 주기/내 강점/시그니처 등 자유롭게 묻기 (상담·답변 자동 기록)
+6. AI 조언 중 진짜 따를 판단만 '이 판단을 내 운영 원칙으로 채택' 버튼 선택
+
+- 공개 롱폼 업로드일·조회수·좋아요·댓글은 앱을 열어 이용하는 동안 최대 24시간에 한 번 자동 갱신됩니다.
+- 프로그램을 완전히 끄면 주기적인 백그라운드 동기화는 하지 않습니다.
+- 각 기록은 public_snapshots/YYYY-MM-DD.json, consultations.json, accepted_decisions.json에 누적됩니다.
+- 업로드 영상과 선택한 추천 주제는 자동 유추하지 않습니다. 한 번 명시적으로 연결합니다.
+- 공개 API 키로는 YouTube Studio의 CTR/노출수/시청 지속률을 자동 조회할 수 없습니다.
+- 상담할 때 질문, 전략 기록과 Studio 자료 일부가 OpenAI API로 전송됩니다. 키는 상담 기록에 넣지 마세요.
+- Hermes와 기존 주제 추천 4단계, 과거 수동 Studio 입력은 유지됩니다.
+- 7_OFFLINE_TEST.bat으로 오프라인 테스트. 실제 Windows에서 온라인 통합 실행은 아직 미검증.
+
+주의: YT_Channel_Strategy는 본인 기록이므로 GitHub 또는 공개 압축파일에 올리지 마세요.

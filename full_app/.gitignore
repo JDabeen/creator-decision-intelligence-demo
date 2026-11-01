@@ -1,0 +1,36 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+data/cache/*
+!data/cache/.gitkeep
+data/runs/*
+!data/runs/.gitkeep
+
+data/content_memory.json
+
+# Live experiments include raw transcript excerpts and unpublished drafts.
+data/experiments/
+
+# Local research, transcripts, audience metrics, unpublished scripts and secrets.
+*.env
+.env.*
+!.env.example
+*.sqlite
+*.sqlite3
+*.db
+*.db-wal
+*.db-shm
+*.log
+youtube_consultant_data/
+data/topic_experiments/
+data/manual/
+data/research/
+data/topic_cache/
+hermes_data/
+portfolio_private/
+# User-provided reference strategy documents are not intended as a public fixture.
+reference/
+
+# Persistent user private strategic history (never ship).
+YT_Channel_Strategy/

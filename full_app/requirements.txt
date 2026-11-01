@@ -1,0 +1,9 @@
+# Pinned top-level dependencies: Windows CPython 3.14 install set observed on 2026-10-18.
+# Indirect dependencies are resolved by pip; this is NOT a complete hash lockfile.
+streamlit==1.66.0
+pandas==3.0.6
+numpy==2.5.4
+python-dotenv==1.2.4
+google-api-python-client==2.201.0
+youtube-transcript-api==1.2.4
+openai==3.35.1

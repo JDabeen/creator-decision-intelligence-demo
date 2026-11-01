@@ -1,0 +1,25 @@
+Hermes 웹 조사 실제 작동 확인 v1.3
+
+현재까지: Hermes API/LLM 응답 성공. 실제 웹 검색은 0회였음.
+이 버전은 Hermes가 검색했다는 로그/도구 응답/URL이 확인되지 않으면
+시장 재설계를 완료한 것처럼 표시하지 않고 중단합니다.
+
+사용법:
+1. 기존 폴더는 보존. 이 ZIP을 새 폴더에 풀고 기존 .env 복사.
+2. Docker Desktop Engine running이면 0_START_WITH_HERMES.bat 더블클릭.
+3. Draft A → Hermes 비평 영역 → '② 웹 검색 실제 실행 테스트' 클릭.
+   성공하면 검색 원문 확인. 실패하면 화면에 오류 원인이 표시됨.
+4. '독립 재설계' 모드로 Draft B 생성. 실제 웹 조사 성공 때만 진행.
+
+별도 키 없이 공식 Hermes keyless web backend를 먼저 시도합니다.
+실제 이미지에서 작동하지 않으면 .env에 (둘 중 하나) 추가 가능:
+TAVILY_API_KEY=실제키
+EXA_API_KEY=실제키
+(키는 채팅이나 GitHub에 업로드하지 마세요.)
+선택적으로 다음 설정을 .env에 쓸 수 있습니다:
+YRA_HERMES_WEB_BACKEND=firecrawl
+또는 ddgs, tavily, exa. 지원되지 않거나 API 서비스가 불가하면 다시 실패.
+
+주의: '웹 검색 호출 성공'은 외부 자료의 진위/유튜브 조회수 예측 검증을 의미하지 않습니다.
+사용량에 따라 GPT/OpenAI 및 검색 제공자의 비용이 발생할 수 있습니다.
+기존 앱·캐시·Docker 이미지·자체 키 파일은 지우지 않습니다.

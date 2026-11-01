@@ -1,0 +1,18 @@
+Hermes API 도구 목록 응답 형식 수정본 (2026-10-11)
+
+[실행은 하나만]
+1. 이 ZIP을 새 폴더에 압축을 풉니다. 기존 프로그램은 삭제하지 마세요.
+2. 이전 폴더의 .env 파일을 새 폴더에 복사합니다. API 키는 채팅에 올리지 마세요.
+3. Docker Desktop이 Engine running이면 0_START_WITH_HERMES.bat을 실행합니다.
+
+[성공 확인]
+검은 창에서 [Hermes] 인증된 API 연결 성공 메시지가 보이고
+Streamlit 앱이 열려야 Hermes 연결 검사가 통과한 것입니다.
+그 후 Hermes Critic에서 실제 Draft B 생성을 따로 시험해야 합니다.
+
+[오류 확인]
+7_CHECK_HERMES.bat 실행 후 '구체적 원인'을 확인합니다.
+
+이번 수정은 Hermes /v1/toolsets의 data 래퍼 응답을 지원합니다.
+파일/터미널 등 위험한 도구 차단은 그대로 유지됩니다.
+Windows의 실제 Hermes API 호출은 이 환경에서 검증하지 못했습니다.
