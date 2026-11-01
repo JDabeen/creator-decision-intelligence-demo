@@ -169,7 +169,7 @@ LISTEN:{key:"듣기 → 뜻 확인 → 다시 듣기",scenario:"친구가 What d
 {heading:"짧게 바로 대답하기",question:"What do you want to do?",cue:"질문 전체를 다시 번역하기 전에 짧은 한 문장을 꺼내는 연습을 해봅니다.",samples:[["커피 마시고 싶어요","I want to have coffee."],["집에 가고 싶어요","I want to go home."],["내일 출발하고 싶어요","I want to leave tomorrow."],["딸을 만나고 싶어요","I want to see my daughter."],["며칠 더 있고 싶어요","I want to stay a few more days."]]}
 ],scenarioQ:["What do you want to do?","Where do you want to go?","When do you want to leave?","I want to go home."]}
 };
-let st={step:0,goal:"신규 유입",topic:"A0",dir:0,built:false,side:"",scriptChoice:"B",selectedPart:0,revision:"",finalText:"",feedback:"",brief:"",decision:false,draftRevision:false};
+let st={step:0,goal:"신규 유입",topic:"A0",dir:0,built:false,side:"",scriptChoice:"B",selectedPart:0,revision:"",finalText:"",feedback:"",brief:"",decision:false,draftRevision:false,engine:"OpenAI Critic"};
 const cur=()=>cards.find(x=>x.id===st.topic)||cards[0],sp=()=>scripts[cur().seed];
 const directions=[
 ["원리부터 이해하고 직접 말하기","도입에서 막히는 이유를 보여준 다음 한 가지 핵심 원리로 연습을 설계합니다."],
@@ -215,8 +215,10 @@ function buildScript(kind,partOnly){
   "오늘은 "+d.key+" 하나를 중심으로 연습하겠습니다. 아주 많은 문법을 한꺼번에 외우지 않고, 이미 아는 표현을 조금씩 바꿔 써볼 겁니다.",
   "영상이 끝날 때는 "+d.promise+". 눈으로 보지만 마시고 실제로 입을 열어보세요.",
   B?"처음 질문은 마지막에 다시 가져옵니다. 그때는 제가 답을 먼저 알려주지 않을 테니 얼마나 달라졌는지 직접 확인해보세요.":"먼저 하나씩 이해한 다음 직접 따라 말해보겠습니다.",
-  "틀려도 괜찮습니다. 말을 시작하고 한 번 더 시도하는 데 집중해보세요."
- ].join("\n\n");
+  "틀려도 괜찮습니다. 말을 시작하고 한 번 더 시도하는 데 집중해보세요.",
+  st.dir===0?"먼저 뜻과 말의 순서를 충분히 이해해보고, 그다음 입으로 연결해보겠습니다.":st.dir===1?"오늘은 설명보다 여러분이 먼저 답하는 시간이 많습니다. 짧게 말해보고 다시 답하는 순서로 진행할게요.":"실제 상황이라고 생각해보세요. 앞에서 배운 말을 끝까지 하나의 대화로 연결해보겠습니다.",
+  st.draftRevision&&kind==="A"?"수정 적용 예시: 도입을 더 쉽게 정리해서 오늘 배울 한 가지를 먼저 선명하게 보여드리겠습니다.":""
+ ].filter(Boolean).join("\n\n");
  const parts=[];
  d.blocks.forEach((b,i)=>{
   let p=[];
@@ -246,6 +248,8 @@ function buildScript(kind,partOnly){
   "마지막으로 여러분 상황에 맞는 답을 만듭니다. 지금 떠오르는 자기 이야기 하나를 한국어로 먼저 말하고, 오늘 표현으로 바꿔보세요. (10초)"
  ].join("\n\n");
  parts.push({name:"섞어서 답하기 · 실전 대화",text:mixed});
+ if(st.dir===1){parts.push({name:"3초 응답 집중 연습",text:"이번에는 정답부터 보여드리지 않을게요. 제가 말하는 질문을 듣고 세 초 동안 스스로 대답해보세요.\n\n"+d.blocks.flatMap(b=>b.samples.slice(0,2).map(z=>"문제: "+z[0]+" (3초)\n정답: "+z[1]+"\n다시 한번 눈을 떼고 말해보세요.")).join("\n\n")+"\n\n한 번 틀리면 정답을 보고 다시 말하면 됩니다. 처음부터 완벽하게 답하는 게 목표가 아니라, 틀린 부분을 한 군데씩 고쳐보는 겁니다."});}
+ if(st.dir===2){parts.push({name:"현장 상황극 · 스스로 말하기",text:"이제 "+d.scenario+"을 실제로 연습하겠습니다. 처음에는 제가 문장을 함께 보여드리고, 두 번째는 답을 가린 채 혼자 해볼 거예요.\n\n"+d.blocks.map(b=>"상대방: "+b.question+"\n나: "+b.samples[0][1]+"\n그 말을 듣고 다시 질문이 온다면, 방금 연습한 표현으로 한마디만 더 말해보세요.").join("\n\n")+"\n\n모르는 말을 억지로 만들지 않아도 됩니다. 먼저 할 수 있는 말부터 하고, 못 들었다면 다시 물어보는 것까지가 실제 대화입니다."});}
  const ending=[
   "자, 처음 질문을 다시 가져오겠습니다. "+d.challenge,
   "(5초) 지금은 처음보다 어떤 말부터 해야 하는지 조금 더 보이시나요?",
@@ -318,10 +322,11 @@ function draw(){
   out+='<p class="demo-note">이 데모는 실제 로컬 앱의 화면 순서와 출력 항목을 재현합니다. 조사와 대본 결과는 사전 준비한 예시이며, 입력 내용으로 새 AI 결과를 생성하지 않습니다.</p>';
  }else if(st.step===1){
   out+=nav()+heading("TOPIC DISCOVERY · BASELINE A / HERMES B")+'<h2>다음 영상, 무엇을 만들까요?</h2>';
-  out+='<p class="demo-lead">A는 채널·시장 기록, B는 독립 웹 조사라는 서로 다른 경로의 제안입니다. 한 주제를 선택해 심층 조사까지 이어가 보세요.</p>';
+  out+='<p class="demo-lead">A는 채널·시장 기록, B는 독립 웹 조사라는 서로 다른 경로의 제안입니다. 현재 목표: <strong>'+H(st.goal)+'</strong>. 한 주제를 선택해 심층 조사까지 이어가 보세요.</p>'+(st.brief?'<div class="demo-alert">입력한 관심사: '+H(st.brief)+' · 일치하는 사전 준비 샘플을 표시합니다. 새 AI 조사는 수행하지 않습니다.</div>':"");
   for(const tag of ["A","B"]){
     out+='<div class="group">'+(tag==="A"?"A · 내 채널 기반 추천":"B · Hermes 독립 조사")+'</div>';
-    out+=cards.filter(x=>x.from===tag).map(x=>'<label class="topic demo-choice '+(x.id===st.topic?'on':'')+'"><input type="radio" name="candidate" '+(x.id===st.topic?'checked':'')+' onchange="CDI.choice(\''+x.id+'\')"><span>'+x.rank+'순위 · '+H(x.title)+'</span><small>'+H(x.route)+' · '+H(x.signal)+'</small></label>').join("");
+    const ranked=cards.filter(x=>x.from===tag).sort((a,b)=>st.goal==="신뢰 형성"?((a.id==="A1"||a.id==="B2"?0:a.id==="A2"||a.id==="B1"?1:2)-(b.id==="A1"||b.id==="B2"?0:b.id==="A2"||b.id==="B1"?1:2)):a.rank-b.rank);
+    out+=ranked.map((x,i)=>'<label class="topic demo-choice '+(x.id===st.topic?'on':'')+'"><input type="radio" name="candidate" '+(x.id===st.topic?'checked':'')+' onchange="CDI.choice(\''+x.id+'\')"><span>'+(i+1)+'순위 · '+H(x.title)+'</span><small>'+H(x.route)+' · '+H(x.signal)+'</small></label>').join("");
   }
   out+='<div class="demo-result"><div class="demo-label">선택한 주제의 핵심 차별점</div><p>'+H(c.edge)+'</p><div class="demo-label">'+H(c.reason)+'</div></div>';
   out+='<div class="actions">'+btn("이 주제 심층 조사","step(2)")+'</div>'+E(compareEvidence(c))+back(0,"주제 찾기");
@@ -339,13 +344,14 @@ function draw(){
   out+='<p class="demo-lead">심층 조사에서 선택한 방향을 반영해 실제로 읽을 수 있는 강의 대본을 구성한 시연입니다.</p>';
   out+=packaging();
   out+='<div class="demo-section"><div class="demo-label">Draft A 전체 원고 · '+wordCount.toLocaleString("ko-KR")+'자 (예시)</div><h3 class="demo-script-title">'+H(p.titles[0])+'</h3><div class="demo-script">'+H(fullText("A"))+'</div></div>';
-  out+='<div class="actions">'+btn("Draft A 다운로드 (.md)","save('A')","secondary")+btn("Draft B 만들기","buildB()")+'</div>';
+  out+='<div class="actions">'+btn("Draft A 다운로드 (.md)","save('A')","secondary")+btn(st.draftRevision?"도입 보강 예시 적용됨":"Draft A 도입 보강 예시","reviseA()","secondary")+btn("Draft B 만들기","buildB()")+'</div>';
   out+=E('<p>Core Edge: '+H(c.edge)+'</p><p>대본 설계: '+H(p.hook)+'</p><p>기존 프로그램에서는 이 단계에서 자유 텍스트 피드백과 Draft A 수정, 구조 블루프린트, 제목·썸네일 후보, 다운로드가 제공됩니다.</p>')+back(2,"심층 조사");
  }else if(st.step===4){
   const a=buildScript("A"),b=buildScript("B"),partTitles=["오프닝",...b.parts.map(x=>x.name),"마무리"];
   const partA=st.selectedPart===0?a.opening:st.selectedPart===partTitles.length-1?a.ending:a.parts[st.selectedPart-1]?.text||"";
   const partB=st.selectedPart===0?b.opening:st.selectedPart===partTitles.length-1?b.ending:b.parts[st.selectedPart-1]?.text||"";
   out+=nav()+heading("SCRIPT CRITIC · DRAFT B")+'<h2>Draft A / B 비교</h2><p class="demo-lead">실제 앱에서는 Critic이 수정할 부분을 검토하고 B를 생성합니다. 데모에서는 사전에 작성된 개선본으로 그 단계를 재현합니다.</p>';
+  out+='<div class="demo-tabs"><button class="'+(st.engine==="OpenAI Critic"?"selected":"")+'" onclick="CDI.engine(\'OpenAI Critic\')">OpenAI Critic</button><button class="'+(st.engine==="Hermes Agent"?"selected":"")+'" onclick="CDI.engine(\'Hermes Agent\')">Hermes Agent (Docker)</button></div><p class="demo-note">검토 엔진 선택 화면의 시뮬레이션입니다. 결과 예시는 고정이며 두 엔진 중 어느 것도 호출하지 않습니다.</p>';
   out+='<div class="demo-result"><span class="demo-label">Critic 판단 예시</span><h3>연습으로 얻는 변화를 더 선명하게 보여주기</h3><p>도입에서 시청자가 바로 한 번 실패해 보게 하고, 본문에서 연습을 충분히 제공한 뒤 같은 질문으로 돌아가게 합니다. 정확도·분량·반복 경험을 함께 확인합니다.</p></div>';
   out+='<div class="demo-split"><div class="demo-result"><div class="demo-label">B에서 개선한 점</div><p>질문 재도전, 표현의 반복, 정해진 대화 장면, 완결형 마무리</p></div><div class="demo-result"><div class="demo-label">A에서 유지할 점</div><p>쉬운 어휘, 초기 개념 설명, 핵심 표현의 일관성</p></div></div>';
   out+='<div class="demo-section"><h3>비교할 구간</h3><div class="demo-tabs">'+partTitles.map((x,i)=>'<button class="'+(st.selectedPart===i?'selected':'')+'" onclick="CDI.part('+i+')">'+H(x)+'</button>').join("")+'</div>';
@@ -371,11 +377,13 @@ function draw(){
 window.CDI={
  step:n=>{st.step=n;draw()},
  goal:g=>{st.goal=g;draw()},
- choice:id=>{st.topic=id;st.selectedPart=0;st.scriptChoice="B";draw()},
+ choice:id=>{st.topic=id;st.selectedPart=0;st.scriptChoice="B";st.draftRevision=false;draw()},
  direction:n=>{st.dir=n;st.selectedPart=0;draw()},
- start:()=>{st.brief=$("cdiBrief")?.value||"";st.step=1;draw()},
+ start:()=>{st.brief=$("cdiBrief")?.value||"";const q=st.brief.toLowerCase();if(/여행|호텔|묵|staying/.test(q))st.topic="A0";else if(/어제|과거|하려고|yesterday/.test(q))st.topic="A2";else if(/어순|문장|길게/.test(q))st.topic="B1";else if(/듣기|리스닝|안 들/.test(q))st.topic="B2";else if(/산책|대답|질문/.test(q))st.topic="A1";st.step=1;draw()},
  side:name=>{st.side=name;draw()},
  buildB:()=>{st.built=true;st.step=4;draw()},
+ reviseA:()=>{st.draftRevision=!st.draftRevision;draw()},
+ engine:x=>{st.engine=x;draw()},
  part:n=>{st.selectedPart=n;draw()},
  finalChoice:v=>{st.scriptChoice=v;draw()},
  reset:()=>{st.step=0;st.built=false;st.brief="";st.scriptChoice="B";st.selectedPart=0;draw()},
