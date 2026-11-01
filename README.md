@@ -6,6 +6,14 @@
 > **좋은 주제를 감으로 선택하는 대신, 어떤 근거로 제작해야 하는지 판단한다.**  
 > 실제 영어교육 유튜브 채널을 운영하며 겪은 반복적 조사·판단 비용을 줄이기 위해 개발한 개인 AI 크리에이터 컨설턴트입니다.
 
+## ▶ 실제 프로그램 시연 영상
+
+https://github.com/user-attachments/assets/d79eaee2-9893-4e34-bd19-6b4d91ca16f0
+
+[시연 영상 열기](https://github.com/user-attachments/assets/d79eaee2-9893-4e34-bd19-6b4d91ca16f0) · [브라우저에서 데모 체험하기](https://jdabeen.github.io/creator-decision-intelligence-demo/)
+
+*시연 영상은 실제 프로그램의 사용 흐름을 보여주며, 브라우저 데모는 API 호출 없이 가상 데이터로 체험하는 별도 버전입니다.*
+
 ## 01. 문제 정의
 
 유튜브 영상을 하나 제작하려면 경쟁 영상과 시장 수요를 조사하고, 조회수·댓글·자막을 읽고, 내 채널의 기존 설명과 비교하며, 대본까지 완성해야 합니다.
@@ -91,7 +99,7 @@ GitHub Pages가 활성화되면 위 체험 링크를 눌러 다운로드 없이 
 - 모든 데모 내용은 **합성 데이터**입니다. 실제 채널 성과나 AI 분석 결과가 아닙니다.
 - 데모에는 **API 호출, 인증키, 유료 크레딧 사용이 없습니다.**
 - 웹 주소가 404로 보이면 저장소의 **Settings → Pages → Build and deployment → Deploy from a branch → main / (root) → Save**를 설정해야 합니다.
-- **시연 영상:** 녹화본은 준비되어 있으나 GitHub 영상 링크는 아직 첨부되지 않았습니다. 업로드 후 README 상단에 삽입합니다.
+- **시연 영상:** [GitHub에 업로드된 영상 보기](https://github.com/user-attachments/assets/d79eaee2-9893-4e34-bd19-6b4d91ca16f0)
 - **[Engineering Case Study](docs/ENGINEERING_CASE_STUDY.md):** 실제 문제·해결 시도·검증 한계에 관한 상세 문서
 
 ## 07. 공개 범위와 보안
