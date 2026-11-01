@@ -67,6 +67,8 @@ flowchart TD
 
 **[🔎 상세 기술 사례: 실제 오류·원인·수정·남은 문제 보기](docs/CASE_STUDIES.md)**
 
+**[실제 개발 시행착오와 문제 해결 과정 자세히 읽기](docs/ENGINEERING_CASE_STUDY.md)** — 조회수 편향, 자막 IP 차단, RAG, Hermes URL 불일치, API 비용, UI 과밀 등
+
 ## 05. 시행착오와 한계
 
 | 문제 | 대응 / 현재 상태 |
@@ -82,14 +84,15 @@ flowchart TD
 
 ## 06. 데모 — API 키 없이 보기
 
-**[▶ 인터랙티브 웹 데모 체험하기](https://jdabeen.github.io/creator-decision-intelligence-demo/)** · [데모 파일](index.html) · [시연 설명](docs/DEMO_GUIDE.md)
+**[▶ 클릭해서 체험하는 웹 데모](https://jdabeen.github.io/creator-decision-intelligence-demo/)** · [데모 파일](index.html) · [시연 설명](docs/DEMO_GUIDE.md)
 
 GitHub Pages가 활성화되면 위 체험 링크를 눌러 다운로드 없이 브라우저에서 **주제 발견 → 비교 → 조사 → 대본 A/B → 최종 선택** 흐름을 가상 데이터로 체험할 수 있습니다.
 
 - 모든 데모 내용은 **합성 데이터**입니다. 실제 채널 성과나 AI 분석 결과가 아닙니다.
 - 데모에는 **API 호출, 인증키, 유료 크레딧 사용이 없습니다.**
 - 웹 주소가 404로 보이면 저장소의 **Settings → Pages → Build and deployment → Deploy from a branch → main / (root) → Save**를 설정해야 합니다.
-- **시연 영상:** 아직 등록되지 않았습니다. 완성된 영상은 이 위치에 추가할 계획입니다.
+- **시연 영상:** 녹화본은 준비되어 있으나 GitHub 영상 링크는 아직 첨부되지 않았습니다. 업로드 후 README 상단에 삽입합니다.
+- **[Engineering Case Study](docs/ENGINEERING_CASE_STUDY.md):** 실제 문제·해결 시도·검증 한계에 관한 상세 문서
 
 ## 07. 공개 범위와 보안
 
