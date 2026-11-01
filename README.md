@@ -91,3 +91,25 @@ flowchart TD
 **검증 범위:** 오프라인 테스트를 통과한 이력이 있으나, 모든 Windows / Docker / 외부 API 조합의 종단 간 성공이나 조회수 개선 효과가 입증된 것은 아닙니다.
 
 **[개발 과정과 실제 문제 해결 기록 자세히 보기](docs/ENGINEERING_CASE_STUDY.md)**
+
+
+## 06. 실제 프로그램 실행 방법 · API 설정
+
+웹 데모는 별도 설치 없이 체험할 수 있습니다. **실제 분석 엔진은 로컬 Python 앱**이므로, 사용자가 자신의 API 키를 발급해 설정해야 합니다.
+
+1. [전체 소스 코드](full_app/)를 내려받고 Windows에서 Python과 필요한 패키지를 준비합니다. Hermes B 독립 조사를 실행할 경우 **Docker Desktop**도 필요합니다.
+2. [\`full_app/.env.example\`](full_app/.env.example) 파일을 복사해 같은 폴더에 **\`.env\`**라는 이름으로 저장합니다.
+3. 아래 필수 키를 발급받아 \`.env\`에 입력합니다. 샘플 파일과 코드에 개인 API 키는 포함하지 않습니다.
+4. [전체 실행 안내](full_app/README.md)에 따라 \`1_SETUP_ONCE.bat\`로 설치하거나 \`0_START_WITH_HERMES.bat\`로 실행합니다.
+
+| 설정 이름 | 발급처 | 용도 |
+| --- | --- | --- |
+| \`YOUTUBE_API_KEY\` **필수** | [Google Cloud Console](https://console.cloud.google.com/apis/credentials) | YouTube Data API 영상·채널 검색 및 메타데이터 |
+| \`OPENAI_API_KEY\` **필수** | [OpenAI API Platform](https://platform.openai.com/api-keys) | LLM 분석, 대본 생성, embeddings |
+| \`TAVILY_API_KEY\` / \`EXA_API_KEY\` **선택** | 각 서비스 | Hermes의 추가 웹 검색·추출 |
+| \`SUPADATA_API_KEY\` **선택** | Supadata | 자막 수집 보조 경로 |
+| \`SERPAPI_API_KEY\` **선택** | SerpApi | 검색 관심도 관련 보조 자료 |
+
+**보안:** \`.env\`, \`.streamlit/secrets.toml\`, 개인 YouTube Studio 데이터, 로컬 캐시와 비공개 원고는 GitHub에 올리지 마세요. 이 저장소의 \`.gitignore\`는 \`.env\`를 제외하도록 설정돼 있습니다. 이미 공개한 키는 파일 삭제만으로 안전해지지 않으므로 **발급처에서 폐기하고 새로 발급**해야 합니다.
+
+**비용 및 제한:** ChatGPT 구독과 OpenAI API 사용 요금은 별도입니다. YouTube Data API는 프로젝트별 할당량 제한이 있고, 선택한 외부 서비스에도 요금이 발생할 수 있습니다.
