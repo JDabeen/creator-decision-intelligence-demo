@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Creator Decision Intelligence · Interactive Demo</title>
+<style>
+:root{--bg:#0f1012;--surface:#191b1e;--surface2:#23262a;--line:#34383d;--muted:#92989f;--text:#f2f3f4;--white:#eceef0}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font:15px/1.65 system-ui,-apple-system,'Malgun Gothic',sans-serif;margin:0}
+button,textarea{font:inherit}
+button{cursor:pointer}
+button:focus-visible,textarea:focus-visible,summary:focus-visible{outline:2px solid #fff;outline-offset:3px}
+header{border-bottom:1px solid #25282c}
+.head{max-width:940px;margin:auto;padding:19px 26px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.wordmark{font-size:13px;font-weight:750;letter-spacing:.11em}
+.meta{font-size:11px;border:1px solid #3c4045;border-radius:20px;padding:5px 11px;color:#b5b9c0;white-space:nowrap}
+main{max-width:850px;margin:0 auto;padding:56px 26px 90px}
+.eyebrow{color:var(--muted);text-transform:uppercase;font-size:11px;letter-spacing:.12em}
+h1{font-size:clamp(26px,4.7vw,41px);letter-spacing:-.045em;line-height:1.26;margin:15px 0 14px;font-weight:750}
+h2{font-size:clamp(23px,3vw,29px);letter-spacing:-.03em;line-height:1.34;margin:12px 0 12px}
+h3{font-size:17px;margin:8px 0 8px;line-height:1.5;letter-spacing:-.015em}
+p{margin:7px 0;color:#afb4bb}
+.home{text-align:center;max-width:700px;margin:55px auto 0}
+.home .subtitle{font-size:14px;margin-bottom:30px}
+.segment{display:inline-flex;gap:4px;padding:4px;border-radius:30px;border:1px solid var(--line);background:#181a1d;margin:5px 0 26px}
+.segment button{background:transparent;color:#a7abb1;border:0;border-radius:30px;padding:8px 19px;font-size:13px}
+.segment button.on{background:#eceef0;color:#141517;font-weight:700}
+.input-card{background:#202225;border:1px solid #3b3e43;border-radius:20px;text-align:left;padding:16px}
+textarea{width:100%;display:block;resize:vertical;min-height:100px;background:none;color:#f2f2f2;border:0;outline:0;padding:7px 5px}
+textarea::placeholder{color:#7e838b}
+.helper{color:#828891;font-size:12px;margin-top:12px}
+.actions{display:flex;justify-content:flex-end;align-items:center;gap:11px;margin-top:22px;flex-wrap:wrap}
+.btn{border:1px solid #41454a;background:#1d2023;color:#e1e3e6;border-radius:12px;padding:11px 16px;font-weight:600}
+.btn:hover{background:#292d31}
+.btn.primary{background:#efeff0;color:#121416;border-color:#efeff0}
+.btn.primary:hover{background:#d7d8db}
+.btn:disabled{opacity:.5;cursor:default}
+.crumb{margin-bottom:30px;color:#8e939b;font-size:12px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.crumb strong{color:#e1e4e6;font-weight:650}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:24px 0 12px}
+.card{display:block;width:100%;text-align:left;background:var(--surface);border:1px solid #33363b;border-radius:16px;padding:21px;min-height:190px;color:var(--text);transition:border-color .1s,background .1s}
+.card:hover{border-color:#72777d}
+.card.picked{border-color:#e5e7e8;background:#232629}
+.card-label{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#aab0b6;gap:8px}
+.card p{font-size:13px;color:#9da3aa}
+.dot{width:17px;height:17px;border-radius:50%;border:1.5px solid #7f858d;flex:none}
+.picked .dot{border:5px solid #f0f1f1;background:#202225}
+.detail{margin-top:42px;border-top:1px solid #34383d;padding-top:19px;color:#abb0b8}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:600;color:#cacdd1}
+summary::-webkit-details-marker{display:none}
+summary::after{content:'+';font-size:22px;font-weight:400}
+details[open] summary::after{content:'−'}
+.detail-content{font-size:13px;color:#9fa6ad;margin-top:15px}
+.detail-content p{color:#9fa6ad}
+.feature{padding:25px 27px;border-radius:18px;background:var(--surface);border:1px solid var(--line);margin-top:24px}
+.tag{font-size:11px;color:#a1a8af;letter-spacing:.05em}
+.feature h3{font-size:21px}
+.script{border:1px solid var(--line);background:var(--surface);border-radius:17px;padding:27px 30px;margin:25px 0}
+.script p{color:#dadde1;font-size:15px;line-height:1.95;margin:14px 0}
+.script .tag{margin-bottom:20px}
+.notice{border-left:2px solid #828891;padding:6px 13px;font-size:13px;color:#babfc5;margin:22px 0}
+.footer{color:#737982;margin-top:55px;font-size:12px;text-align:center}
+.footer a{color:#aeb4bd;text-decoration:none}
+.link{color:#c3c7cd;text-decoration:underline}
+.status{margin-top:14px;color:#c5ccd3;font-size:13px}
+@media(max-width:620px){main{padding:35px 17px 65px}.head{padding:16px 17px}.home{margin-top:52px}.cards{grid-template-columns:1fr}.card{min-height:0}.script{padding:21px}.feature{padding:21px}.segment{width:100%}.segment button{flex:1}.wordmark{font-size:10px}}
+</style>
+</head>
+<body>
+<header><div class="head"><div class="wordmark">CREATOR DECISION INTELLIGENCE</div><div class="meta">INTERACTIVE DEMO · API 호출 없음</div></div></header>
+<main><div id="app"></div><footer class="footer">예시 데이터로 구성된 시연 화면 · <a href="https://github.com/JDabeen/creator-decision-intelligence-demo">GitHub 소스 보기</a></footer></main>
+<script>
+'use strict';
+var stage=0,goal='신규 유입',prompt='',chosen=0,direction=0,draft='B',confirmed=false;
+var topics=[
+ {model:'A',kind:'내 채널 · 기존 데이터',name:'외운 영어를 실제 대화로 바꾸는 법',value:'이미 아는 문장을 질문·대답·추가 질문으로 연결',reason:'기존 어순 콘텐츠와 연관된 설명 구조를 실전 발화로 확장하는 가상 사례입니다.',risk:'질문-대답 훈련에 대한 별도 시장 수요는 검증되지 않았습니다.'},
+ {model:'A',kind:'시장 공백 · 기존 데이터',name:'여행 영어, 직원의 질문부터 듣고 답하기',value:'문장 암기를 상황별 실제 응답으로 전환',reason:'여행영어 관련 학습 수요를 대화 훈련으로 좁히는 예시입니다.',risk:'경쟁이 치열하며 성과를 보장하지 않습니다.'},
+ {model:'B',kind:'Hermes · 외부 조사',name:'리스닝이 말하기로 이어지지 않는 이유',value:'듣고 이해한 문장을 자신의 말로 바꾸는 실험',reason:'듣기-말하기 사이의 수행 공백을 시청자 문제로 정의한 가상 사례입니다.',risk:'실제 Hermes 조사가 아닌 합성 사례이며 최근 수요를 입증하지 않습니다.'},
+ {model:'B',kind:'Hermes · 외부 조사',name:'핵심동사 8개, 외우지 않고 문장 만드는 법',value:'동사의 핵심 의미를 생활 상황에 적용하는 훈련',reason:'핵심동사 학습을 예문 암기에서 문장 생성으로 확장하는 가상 사례입니다.',risk:'기존 학습 주제와 중복될 수 있습니다.'}
+];
+var directions=[
+ {name:'하나의 질문으로 대화를 이어가기',desc:'문장 하나를 대답·추가 설명·되묻기로 확장합니다.',edge:'암기한 한 문장이 실제 대화의 시작이 되도록 연결하는 것'},
+ {name:'잘못된 응답 vs 자연스러운 응답',desc:'짧은 비교 실험으로 무엇이 대화를 막는지 발견합니다.',edge:'실패 원인을 보여준 뒤 수정한 응답을 직접 시도하게 하는 것'},
+ {name:'시청자 30초 말하기 테스트',desc:'즉시 따라 말하고 처음과 마지막을 비교합니다.',edge:'설명보다 실제 발화 성공 경험을 앞에 놓는 것'}
+];
+var app=document.getElementById('app');
+function escapeText(t){return String(t).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function el(tag,attrs,txt){var e=document.createElement(tag); if(attrs){Object.keys(attrs).forEach(function(k){e.setAttribute(k,attrs[k])})} if(txt!==undefined)e.textContent=txt;return e}
+function detail(text){return '<details class="detail"><summary>판단 근거 · 데이터 보기</summary><div class="detail-content">'+text+'</div></details>'}
+function crumb(){return '<div class="crumb"><span>DEMO / '+(stage+1)+' OF 4</span><strong>'+['주제 찾기','비교·선택','심층 조사','대본'][stage]+'</strong></div>'}
+function controls(next){return '<div class="actions"><button class="btn" onclick="back()">이전 단계</button><button class="btn primary" onclick="'+next.fn+'()">'+next.label+'　→</button></div>'}
+function show(){
+ confirmed=false;
+ var h='';
+ if(stage===0){
+   h='<div class="home"><div class="eyebrow">AI CONTENT RESEARCH WORKSPACE</div><h1>내 채널에 맞는 다음 주제 찾기</h1><p class="subtitle">어떤 콘텐츠를 만들지, 시장 근거와 함께 판단합니다.</p>';
+   h+='<div class="segment" role="group" aria-label="콘텐츠 목표"><button type="button" id="pull" onclick="setGoal(0)">신규 유입</button><button type="button" id="key" onclick="setGoal(1)">신뢰 형성</button></div>';
+   h+='<div class="input-card"><textarea id="query" aria-label="주제 입력" placeholder="어떤 주제를 고민하고 계신가요?"></textarea><div class="actions"><button class="btn primary" onclick="start()">주제 찾기　→</button></div></div>';
+   h+='<div class="helper">시연용 데이터로 진행합니다. 입력한 문장에 따라 AI 추천이 새로 생성되지는 않습니다.</div></div>';
+ } else if(stage===1) {
+   h=crumb()+'<h2>어떤 주제를 만들까요?</h2><p>A와 B가 독립적으로 제시한 후보를 비교합니다. 아래는 실제 분석 결과가 아닌 예시입니다.</p>';
+   h+='<div class="cards">'+topics.map(function(t,i){return '<button class="card'+(chosen===i?' picked':'')+'" onclick="setChoice('+i+')" aria-pressed="'+(chosen===i)+'"><div class="card-label">'+t.kind+'<span class="dot"></span></div><h3>'+escapeText(t.name)+'</h3><p>'+escapeText(t.value)+'</p></button>'}).join('')+'</div>';
+   h+=controls({fn:'research',label:'이 주제로 더 알아보기'});
+   h+=detail('<p><strong>선택한 후보의 근거:</strong> '+escapeText(topics[chosen].reason)+'</p><p><strong>한계:</strong> '+escapeText(topics[chosen].risk)+'</p><p>데모의 A/B 추천은 합성 데이터입니다. 출처 URL·조회수·예상 성과를 실제 조사처럼 표현하지 않습니다.</p>');
+ } else if(stage===2){
+   h=crumb()+'<h2>어떤 방향으로 만들까요?</h2><p class="subtitle">'+escapeText(topics[chosen].name)+'</p>';
+   h+='<div class="cards">'+directions.map(function(d,i){return '<button class="card'+(direction===i?' picked':'')+'" onclick="setDirection('+i+')" aria-pressed="'+(direction===i)+'"><div class="card-label">영상 방향 0'+(i+1)+'<span class="dot"></span></div><h3>'+escapeText(d.name)+'</h3><p>'+escapeText(d.desc)+'</p></button>'}).join('')+'</div>';
+   h+=controls({fn:'write',label:'대본 확인하기'});
+   h+=detail('<p><strong>핵심 차별점:</strong> '+escapeText(directions[direction].edge)+'</p><p>원래 프로그램은 이 단계에서 자막·댓글·시장 설명 방식·내 채널 중복을 분석합니다. 이 데모에서는 실제 YouTube 조회·자막 수집을 수행하지 않습니다.</p>');
+ } else {
+   var title=topics[chosen].name;
+   var opening='영어 문장을 분명히 알고 있는데, 막상 누가 질문하면 말이 멈추신 적 있나요? 오늘은 아는 문장을 실제 대화에 연결해 보겠습니다.';
+   var bodyA='예를 들어 “I usually exercise.”라고 말할 수 있습니다. 그런데 상대가 “Where do you exercise?”라고 묻는 순간 멈춘다면, 장소를 붙이는 연습부터 시작해 보세요. “At a park.” 이렇게 짧게 답해도 대화는 이어집니다.';
+   var bodyB='“What do you do after work?” 질문을 들으면, 먼저 짧게 답해 보세요. “I usually exercise.” 다음 질문은 “Where?”입니다. “At a park near my home.” 지금 중요한 건 긴 문장을 암기하는 일이 아니라 이미 아는 문장을 질문에 맞게 꺼내는 것입니다.';
+   var endingA='오늘은 짧은 대답부터 연습해 보세요. 다음에는 한 문장을 조금씩 길게 만들어 보겠습니다.';
+   var endingB='처음에는 한 문장에서 멈췄습니다. 이제는 질문을 듣고 답하고, 정보를 한 가지 더 보탤 수 있습니다. 오늘 기억할 것은 세 가지입니다. 질문을 듣기, 짧게 답하기, 한마디 더하기. 여기서부터 실제 대화가 시작됩니다.';
+   var body=draft==='A'?bodyA:bodyB;
+   var ending=draft==='A'?endingA:endingB;
+   h=crumb()+'<h2>어떤 대본으로 촬영할까요?</h2><p>Draft A와 비평을 반영한 Draft B를 비교해 선택합니다.</p>';
+   h+='<div class="segment" role="group" aria-label="대본 선택"><button id="da" onclick="setDraft(0)">Draft A</button><button id="db" onclick="setDraft(1)">Draft B</button></div>';
+   h+='<article class="script"><div class="tag">'+(draft==='A'?'DRAFT A · FIRST VERSION':'DRAFT B · REVISED VERSION')+'</div><h3>'+escapeText(title)+'</h3><p>'+opening+'</p><p>'+body+'</p><p>'+ending+'</p></article>';
+   h+='<div class="notice">시연을 위해 작성된 짧은 예시 원고입니다. 실제 AI가 생성하거나 검증한 대본이 아닙니다.</div>';
+   h+='<div class="actions"><button class="btn" onclick="back()">이전 단계</button><button class="btn primary" onclick="finish()">이 원고로 최종 확정　→</button></div>';
+   h+='<div id="finish-area"></div>';
+   h+=detail('<p>선택 방향: '+escapeText(directions[direction].name)+'</p><p>Draft B는 도입에서 제시한 문제를 마지막에 회수하고, 직접 수행할 수 있는 핵심 행동을 요약하는 예시입니다.</p>');
+ }
+ app.innerHTML=h;
+ if(stage===0){document.getElementById('query').value=prompt;updateGoal()}
+ if(stage===3)updateDraft();
+ window.scrollTo({top:0,behavior:'instant'});
+}
+function updateGoal(){document.getElementById('pull').classList.toggle('on',goal==='신규 유입');document.getElementById('key').classList.toggle('on',goal==='신뢰 형성')}
+function setGoal(i){prompt=document.getElementById('query').value;goal=i===0?'신규 유입':'신뢰 형성';updateGoal()}
+function start(){prompt=document.getElementById('query').value;stage=1;show()}
+function setChoice(i){chosen=i;show()}
+function research(){stage=2;show()}
+function setDirection(i){direction=i;show()}
+function write(){stage=3;show()}
+function back(){stage=Math.max(0,stage-1);show()}
+function updateDraft(){document.getElementById('da').classList.toggle('on',draft==='A');document.getElementById('db').classList.toggle('on',draft==='B')}
+function setDraft(i){draft=i===0?'A':'B';show()}
+function scriptText(){var article=document.querySelector('.script');return article?article.innerText:''}
+function finish(){var area=document.getElementById('finish-area');area.innerHTML='<div class="feature"><h3>최종 원고가 선택되었습니다.</h3><p>선택: Draft '+draft+' · 예시 원고를 파일로 저장할 수 있습니다.</p><button class="btn primary" onclick="downloadScript()">원고 다운로드 ↓</button></div>';area.scrollIntoView({behavior:'smooth',block:'nearest'})}
+function downloadScript(){var value=scriptText(),blob=new Blob([value],{type:'text/plain;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='creator_decision_demo_draft_'+draft+'.txt';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},1500)}
+show();
+</script>
+</body></html>
