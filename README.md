@@ -10,7 +10,7 @@
 
 https://github.com/user-attachments/assets/d79eaee2-9893-4e34-bd19-6b4d91ca16f0
 
-[데모 시연 영상 보기](https://github.com/user-attachments/assets/d79eaee2-9893-4e34-bd19-6b4d91ca16f0) · [브라우저에서 데모 체험하기](https://jdabeen.github.io/creator-decision-intelligence-demo/)
+[데모 시연 영상 보기](https://github.com/user-attachments/assets/d79eaee2-9893-4e34-bd19-6b4d91ca16f0) · [브라우저에서 데모 체험하기](https://jdabeen.github.io/cdi-demo.html)
 
 *실제 프로그램의 단계와 의사결정 흐름을 가상 데이터로 재현한 데모입니다. 실시간 YouTube·Hermes·RAG 호출은 수행하지 않습니다.*
 
